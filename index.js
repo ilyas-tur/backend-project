@@ -1,40 +1,50 @@
 import express from "express";
 import axios from "axios";
 import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
-app.use(express.json());
+const PORT = 4000;
 
-const KEY = process.env.API_KEY;
-const PORT = 1000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("/country/:name", async (req, res) => {
+app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+app.get("/laptops", async (req, res) => {
   try {
-    const { name } = req.params;
-    const response = await axios.get(
-      `https://api.api-ninjas.com/v1/country?name=${name}`,
-      {
-        headers: { "X-Api-Key": KEY },
-      }
+    const { data } = await axios.get(
+      "https://dummyjson.com/products/category/laptops"
     );
+    res.render("laptops", { laptops: data.products });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
-    if (response.data.length === 0) {
-      throw new Error("Страна не найдена");
+app.get("/laptops/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data } = await axios.get(`https://dummyjson.com/products/${id}`);
+
+    if (data.category !== "laptops") {
+      return res.status(404).render("error", { message: "Ноутбук не найден" });
     }
 
-    const countryData = response.data[0];
-
-    res.json({
-      name: countryData.name,
-      capital: countryData.capital || "Нет данных",
-      population: countryData.population,
-      region: countryData.region,
-    });
+    res.render("laptop", { laptop: data });
   } catch (error) {
+    console.log("Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Сервер запущен на http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

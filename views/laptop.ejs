@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <title><%= laptop.title %> - Детали</title>
+  </head>
+  <body>
+    <%- include("./partials/header.ejs") %>
+    <div class="laptop-details">
+      <h1><%= laptop.title %></h1>
+      <div class="laptop-images">
+        <% laptop.images.forEach(image => { %>
+        <img src="<%= image %>" alt="<%= laptop.title %>" />
+        <% }); %>
+      </div>
+      <p><strong>Бренд:</strong> <%= laptop.brand %></p>
+      <p><strong>Цена:</strong> $<%= laptop.price %></p>
+      <p><strong>Рейтинг:</strong> <%= laptop.rating %> / 5</p>
+      <p><strong>Описание:</strong> <%= laptop.description %></p>
+      <p><strong>В наличии:</strong> <%= laptop.stock %> шт.</p>
+    </div>
+  </body>
+</html>

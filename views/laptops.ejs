@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <title>Ноутбуки</title>
+  </head>
+  <body>
+    <%- include("./partials/header.ejs") %>
+    <h1>Доступные ноутбуки</h1>
+    <div class="laptop-list">
+      <% laptops.forEach(laptop => { %>
+      <div class="laptop-card">
+        <img src="<%= laptop.thumbnail %>" alt="<%= laptop.title %>" />
+        <h2><%= laptop.title %></h2>
+        <p class="price">$<%= laptop.price %></p>
+        <a href="/laptops/<%= laptop.id %>" class="btn">Подробнее</a>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>

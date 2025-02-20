@@ -1,5 +1,5 @@
 {
-  "name": "weather-app-backend",
+  "name": "ejs-learn-project",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -14,9 +14,8 @@
   "dependencies": {
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
-  },
-  "devDependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
     "nodemon": "^3.1.9"
   }
 }
